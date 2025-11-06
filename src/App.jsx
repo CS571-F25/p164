@@ -1,10 +1,11 @@
 //import { useState } from 'react'
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
-import {HashRouter, Routes, Route} from 'react-router'
+import {HashRouter, Routes} from 'react-router'
 import './App.css'
 import Home from './components/Home'
 import AboutMe from './components/AboutMe'
+import { Route } from 'react-router'
 
 function App() {
 
