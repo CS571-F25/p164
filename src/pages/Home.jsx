@@ -1,11 +1,16 @@
-import { Container, Row, Col, Button, Badge } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import { useData } from "../contexts/DataContext";
 import ProjectCard from "../components/ProjectCard";
 
 export default function Home() {
   const { projects } = useData();
   const featured = projects.filter(p => p.featured).slice(0, 3);
+  const navigate = useNavigate();
+
+  const handleViewDetails = (project) => {
+    navigate(`/projects/${project.id}`);
+  };
 
   return (
     <>
@@ -25,11 +30,7 @@ export default function Home() {
         <Row className="g-4">
           {featured.map(p => (
              <Col key={p.id} md={4}>
-               {/* Passing a dummy onOpen for now, or link to detail */}
-               <ProjectCard project={p} onOpen={() => {}} /> 
-               <div className="text-center mt-2">
-                  <Link to={`/projects/${p.id}`}>Read Case Study</Link>
-               </div>
+               <ProjectCard project={p} onOpen={handleViewDetails} /> 
              </Col>
           ))}
         </Row>
