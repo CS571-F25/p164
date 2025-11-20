@@ -20,6 +20,7 @@ export default function Home() {
           <p className="col-md-8 fs-4 mx-auto">
             I build accessible, pixel-perfect, and performant web experiences.
             Welcome to my portfolio powered by a React CMS.
+            username: admin, pin: 12345
           </p>
           <Button as={Link} to="/projects" variant="primary" size="lg">View My Work</Button>
         </Container>
