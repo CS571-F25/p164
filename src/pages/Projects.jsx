@@ -1,45 +1,36 @@
-import { useState } from "react";
-import { Row, Col } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Row, Col, Container } from "react-bootstrap";
+import { useData } from "../contexts/DataContext";
+import { Link } from "react-router-dom";
 import Filters from "../components/Filters";
 import ProjectCard from "../components/ProjectCard";
-import ProjectModal from "../components/ProjectModal";
-
-const dummyProjects = [
-  {
-    id: 1,
-    title: "AI TCG Simulator",
-    description: "A trading card simulator powered by rule-based logic.",
-    technologies: ["React", "OpenAI", "Node"],
-    takeaways: ["Learned API integration", "Built heuristic engine"]
-  },
-  {
-    id: 2,
-    title: "Portfolio Website",
-    description: "A responsive personal portfolio with animations.",
-    technologies: ["React", "Bootstrap"],
-    takeaways: ["Improved UI design", "Routing experience"]
-  }
-];
 
 export default function Projects() {
-  const [projects] = useState(dummyProjects);
-  const [filtered, setFiltered] = useState(dummyProjects);
-  const [selected, setSelected] = useState(null);
+  const { projects } = useData();
+  const [filtered, setFiltered] = useState(projects);
+
+  // Update filtered list when global projects change
+  useEffect(() => {
+    setFiltered(projects);
+  }, [projects]);
 
   return (
-    <>
-      <h1>Projects</h1>
+    <Container className="mt-4">
+      <h1>All Projects</h1>
       <Filters projects={projects} setFiltered={setFiltered} />
 
       <Row className="g-3 mt-2">
-        {filtered.map(project => (
+        {filtered.length > 0 ? filtered.map(project => (
           <Col key={project.id} xs={12} md={6} lg={4}>
-            <ProjectCard project={project} onOpen={setSelected} />
+            <ProjectCard project={project} onOpen={() => {}} />
+             <div className="mt-2">
+                <Link to={`/projects/${project.id}`} className="btn btn-outline-primary w-100">
+                  View Case Study
+                </Link>
+            </div>
           </Col>
-        ))}
+        )) : <p className="text-center">No projects found.</p>}
       </Row>
-
-      <ProjectModal project={selected} onHide={() => setSelected(null)} />
-    </>
+    </Container>
   );
 }

@@ -1,27 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import {HashRouter, Routes, Route} from 'react-router'
-import './App.css'
-import Home from './pages/Home'
-import About from './pages/About'
-import Projects from "./pages/Projects";
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+
+// Contexts
+import { AuthProvider } from './contexts/AuthContext';
+import { DataProvider } from './contexts/DataContext';
+
+// Components
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+// Pages
+import Home from './pages/Home';
+import About from './pages/About';
+import Projects from "./pages/Projects";
+import ProjectDetail from "./pages/ProjectDetail";
+
+// Admin Pages
+import AdminLogin from "./pages/admin/AdminLogin";
+import Dashboard from "./pages/admin/Dashboard";
+import ProjectEditor from "./pages/admin/ProjectEditor";
 
 function App() {
+  return (
+    <AuthProvider>
+      <DataProvider>
+        <HashRouter>
+          <NavBar />
+          <main style={{ flex: 1, paddingBottom: "2rem" }}>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Home />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/projects/:id" element={<ProjectDetail />} />
+              <Route path="/about" element={<About />} />
 
-  return <HashRouter>
-    <NavBar />
-      <main className="container my-4">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </main>
-      <Footer />
-  </HashRouter>
+              {/* Admin Routes */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              
+              <Route path="/admin/dashboard" element={
+                <ProtectedRoute><Dashboard /></ProtectedRoute>
+              } />
+              <Route path="/admin/create" element={
+                <ProtectedRoute><ProjectEditor /></ProtectedRoute>
+              } />
+              <Route path="/admin/edit/:id" element={
+                <ProtectedRoute><ProjectEditor /></ProtectedRoute>
+              } />
+            </Routes>
+          </main>
+          <Footer />
+        </HashRouter>
+      </DataProvider>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
