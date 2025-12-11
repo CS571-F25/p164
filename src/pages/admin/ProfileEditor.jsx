@@ -60,21 +60,34 @@ export default function ProfileEditor() {
     navigate("/admin/dashboard");
   };
 
+  // ... imports and logic above ...
+
   return (
-    <Container className="py-5">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="fw-bold">Edit Profile</h2>
+    <Container className="pb-5">
+      {/* Creative Header: Floating Glass Bar */}
+      <GlassCard className="mb-5 p-3 d-flex justify-content-between align-items-center sticky-top" style={{ top: "100px", zIndex: 900 }}>
+        <div className="d-flex align-items-center gap-3">
+          <div className="bg-primary text-white rounded-circle p-3 d-flex justify-content-center align-items-center" style={{width: 50, height: 50}}>
+            <FaUser size={20} />
+          </div>
+          <div>
+            <h4 className="fw-bold mb-0">Edit Profile</h4>
+            <small className="text-secondary">Update your public persona</small>
+          </div>
+        </div>
         <div className="d-flex gap-2">
-            <Button variant="outline-secondary" onClick={() => navigate("/admin/dashboard")} className="rounded-pill">
+            <Button variant="light" onClick={() => navigate("/admin/dashboard")} className="rounded-pill border px-4">
                 <FaTimes className="me-2" /> Cancel
             </Button>
-            <Button variant="primary" onClick={handleSubmit} className="rounded-pill shadow-sm">
+            <Button variant="dark" onClick={handleSubmit} className="rounded-pill shadow-lg px-4" style={{ background: "var(--primary-gradient)", border: "none" }}>
                 <FaSave className="me-2" /> Save Changes
             </Button>
         </div>
-      </div>
+      </GlassCard>
 
       <Form onSubmit={handleSubmit}>
+        {/* ... Rest of your Form Rows (Identity, Skills, Experience) ... */}
+        {/* Paste the previous <Row>...</Row> content here */}
         <Row className="g-4">
           {/* Identity Column */}
           <Col lg={4}>
