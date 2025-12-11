@@ -21,7 +21,6 @@ import ProjectDetail from "./pages/ProjectDetail";
 import AdminLogin from "./pages/admin/AdminLogin";
 import Dashboard from "./pages/admin/Dashboard";
 import ProjectEditor from "./pages/admin/ProjectEditor";
-
 import ProfileEditor from "./pages/admin/ProfileEditor";
 
 function App() {
@@ -30,7 +29,8 @@ function App() {
       <DataProvider>
         <HashRouter>
           <NavBar />
-          <main style={{ flex: 1, paddingBottom: "2rem" }}>
+          {/* FIX: Added paddingTop: "120px" to push content below the floating navbar */}
+          <main style={{ flex: 1, paddingBottom: "2rem", paddingTop: "120px" }}>
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
