@@ -1,21 +1,38 @@
-import { Card, Button, Badge } from "react-bootstrap";
+import { Button, Badge } from "react-bootstrap";
+import GlassCard from "./GlassCard";
+import { FaArrowRight } from "react-icons/fa";
 
-export default function ProjectCard({ project, onOpen }) {
+export default function ProjectCard({ project, onOpen, index }) {
   return (
-    <Card className="h-100 shadow-sm">
-      <Card.Body className="d-flex flex-column">
-        <Card.Title>{project.title}</Card.Title>
-        <Card.Text>{project.description}</Card.Text>
+    <GlassCard delay={index * 0.1} className="h-100 d-flex flex-column border-0">
+      <div style={{ height: "200px", overflow: "hidden", borderRadius: "16px", marginBottom: "1rem" }}>
+        <img 
+          src={project.img} 
+          alt={project.title} 
+          style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s" }}
+          className="hover-zoom"
+        />
+      </div>
+      
+      <h3 className="h4 mb-2">{project.title}</h3>
+      <p className="text-secondary flex-grow-1" style={{ fontSize: "0.95rem" }}>
+        {project.description}
+      </p>
 
-        <div className="mt-auto">
-          {project.technologies.map(t => (
-            <Badge bg="secondary" className="me-1" key={t}>{t}</Badge>
-          ))}
-          <Button className="mt-3 w-100" onClick={() => onOpen(project)}>
-            View Details
-          </Button>
-        </div>
-      </Card.Body>
-    </Card>
+      <div className="mb-3">
+        {project.technologies.slice(0, 3).map(t => (
+          <Badge bg="light" text="dark" className="me-1 border" key={t}>{t}</Badge>
+        ))}
+      </div>
+
+      <Button 
+        variant="primary" 
+        className="rounded-pill w-100 d-flex justify-content-between align-items-center"
+        onClick={() => onOpen(project)}
+        style={{ background: "var(--text-main)", border: "none" }}
+      >
+        Case Study <FaArrowRight />
+      </Button>
+    </GlassCard>
   );
 }

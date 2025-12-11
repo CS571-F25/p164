@@ -1,40 +1,69 @@
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useData } from "../contexts/DataContext";
 import ProjectCard from "../components/ProjectCard";
+import Hero from "../components/Hero";
+import GlassCard from "../components/GlassCard";
+import { FaCode, FaLayerGroup, FaMobileAlt } from "react-icons/fa";
 
 export default function Home() {
-  const { projects } = useData();
+  const { projects, profile } = useData();
   const featured = projects.filter(p => p.featured).slice(0, 3);
   const navigate = useNavigate();
 
-  const handleViewDetails = (project) => {
-    navigate(`/projects/${project.id}`);
-  };
-
   return (
     <>
-      <div className="bg-light p-5 mb-4 rounded-3 text-center">
-        <Container fluid className="py-5">
-          <h1 className="display-5 fw-bold">Hi, I'm a Developer.</h1>
-          <p className="col-md-8 fs-4 mx-auto">
-            I build accessible, pixel-perfect, and performant web experiences.
-            Welcome to my portfolio powered by a React CMS.
-            username: admin, pin: 12345
-          </p>
-          <Button as={Link} to="/projects" variant="primary" size="lg">View My Work</Button>
-        </Container>
-      </div>
+      <Hero />
 
-      <Container>
-        <h2 className="text-center mb-4">Featured Projects</h2>
+      {/* Services / Skills Section */}
+      <Container className="mb-5">
         <Row className="g-4">
-          {featured.map(p => (
-             <Col key={p.id} md={4}>
-               <ProjectCard project={p} onOpen={handleViewDetails} /> 
-             </Col>
+          {[
+            { icon: <FaCode/>, title: "Frontend", desc: "React, Vue, & Framer Motion" },
+            { icon: <FaLayerGroup/>, title: "Backend", desc: "Node, Python, & SQL" },
+            { icon: <FaMobileAlt/>, title: "Mobile", desc: "React Native & iOS" }
+          ].map((item, idx) => (
+            <Col md={4} key={idx}>
+              <GlassCard delay={idx * 0.2} className="text-center py-5">
+                <div className="fs-1 text-primary mb-3">{item.icon}</div>
+                <h4>{item.title}</h4>
+                <p className="text-muted m-0">{item.desc}</p>
+              </GlassCard>
+            </Col>
           ))}
         </Row>
+      </Container>
+
+      {/* Featured Projects */}
+      <section id="work" className="py-5">
+        <Container>
+          <div className="d-flex justify-content-between align-items-end mb-5">
+            <div>
+              <h6 className="text-uppercase text-primary fw-bold">Selected Work</h6>
+              <h2 className="display-5">Featured Projects</h2>
+            </div>
+            <Link to="/projects" className="text-decoration-none fw-bold fs-5">View All &rarr;</Link>
+          </div>
+          
+          <Row className="g-4">
+            {featured.map((p, index) => (
+               <Col key={p.id} md={4}>
+                 <ProjectCard project={p} index={index} onOpen={(proj) => navigate(`/projects/${proj.id}`)} /> 
+               </Col>
+            ))}
+          </Row>
+        </Container>
+      </section>
+
+      {/* Contact CTA */}
+      <Container className="py-5 mb-5">
+        <GlassCard className="text-center py-5 bg-dark text-white" style={{ background: "linear-gradient(135deg, #1d1d1f 0%, #434343 100%)" }}>
+          <h2 className="text-white mb-3">Ready to start a project?</h2>
+          <p className="text-white-50 mb-4 fs-5">I'm currently available for freelance work and internships.</p>
+          <a href={`mailto:${profile.email}`} className="btn btn-light btn-lg rounded-pill px-5">
+            Let's Talk
+          </a>
+        </GlassCard>
       </Container>
     </>
   );

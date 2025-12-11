@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { initialProjects } from "../data/mockData";
+import { initialProjects, profileData } from "../data/mockData";
 
 const DataContext = createContext();
 
@@ -8,16 +8,27 @@ export function useData() {
 }
 
 export function DataProvider({ children }) {
+  // --- Projects State ---
   const [projects, setProjects] = useState(() => {
     const saved = localStorage.getItem("devfolio_projects");
     return saved ? JSON.parse(saved) : initialProjects;
+  });
+
+  // --- Profile State (NEW) ---
+  const [profile, setProfile] = useState(() => {
+    const saved = localStorage.getItem("devfolio_profile");
+    return saved ? JSON.parse(saved) : profileData;
   });
 
   useEffect(() => {
     localStorage.setItem("devfolio_projects", JSON.stringify(projects));
   }, [projects]);
 
-  // CRUD Operations
+  useEffect(() => {
+    localStorage.setItem("devfolio_profile", JSON.stringify(profile));
+  }, [profile]);
+
+  // Project CRUD
   const addProject = (proj) => {
     const newProject = { ...proj, id: Date.now() };
     setProjects([...projects, newProject]);
@@ -33,8 +44,16 @@ export function DataProvider({ children }) {
 
   const getProject = (id) => projects.find(p => p.id === parseInt(id));
 
+  // Profile Update (NEW)
+  const updateProfile = (newProfileData) => {
+    setProfile(newProfileData);
+  };
+
   return (
-    <DataContext.Provider value={{ projects, addProject, updateProject, deleteProject, getProject }}>
+    <DataContext.Provider value={{ 
+      projects, addProject, updateProject, deleteProject, getProject,
+      profile, updateProfile 
+    }}>
       {children}
     </DataContext.Provider>
   );

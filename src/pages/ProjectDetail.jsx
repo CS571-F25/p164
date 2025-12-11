@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useData } from "../contexts/DataContext";
-import { Container, Badge, Button, Card } from "react-bootstrap";
+import { Container, Badge, Button, Card, Row, Col } from "react-bootstrap";
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -34,8 +34,16 @@ export default function ProjectDetail() {
                 {project.takeaways.map((t,i) => <li key={i}>{t}</li>)}
               </ul>
               <div className="d-grid gap-2 mt-4">
-                 <Button variant="dark">View on GitHub</Button>
-                 <Button variant="primary">Live Demo</Button>
+                {project.repoLink && (
+                  <Button variant="dark" href={project.repoLink} target="_blank">
+                    View on GitHub
+                  </Button>
+                )}
+                {project.demoLink && (
+                  <Button variant="primary" href={project.demoLink} target="_blank">
+                    Live Demo
+                  </Button>
+                )}
               </div>
            </Card>
         </Col>
@@ -43,5 +51,3 @@ export default function ProjectDetail() {
     </Container>
   );
 }
-// Note: You need to import Row/Col from react-bootstrap here as well.
-import { Row, Col } from "react-bootstrap";

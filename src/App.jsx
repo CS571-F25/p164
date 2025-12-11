@@ -22,6 +22,8 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import Dashboard from "./pages/admin/Dashboard";
 import ProjectEditor from "./pages/admin/ProjectEditor";
 
+import ProfileEditor from "./pages/admin/ProfileEditor";
+
 function App() {
   return (
     <AuthProvider>
@@ -41,6 +43,9 @@ function App() {
               
               <Route path="/admin/dashboard" element={
                 <ProtectedRoute><Dashboard /></ProtectedRoute>
+              } />
+              <Route path="/admin/profile" element={
+                <ProtectedRoute><ProfileEditor /></ProtectedRoute>
               } />
               <Route path="/admin/create" element={
                 <ProtectedRoute><ProjectEditor /></ProtectedRoute>
